@@ -52,13 +52,15 @@ async function CachedHome({ perspective, stega }: DynamicFetchOptions) {
     stega,
   });
 
-  const { _id, _type, pageBuilder } = homePageData ?? {};
-
   return (
     <>
       <WaterHero />
-      {homePageData && (
-        <PageBuilder id={_id} pageBuilder={pageBuilder ?? []} type={_type} />
+      {homePageData?._id && (
+        <PageBuilder
+          id={homePageData._id}
+          pageBuilder={homePageData.pageBuilder ?? []}
+          type={homePageData._type ?? "homePage"}
+        />
       )}
     </>
   );
