@@ -13,9 +13,9 @@ export function WaterHero() {
   const activeRef = useRef(true);
   const trailRef  = useRef([]);
 
-  const idxFn = (c, r, cols) => r * cols + c;
+  const idxFn = (c: number, r: number, cols: number): number => r * cols + c;
 
-  const disturb = useCallback((px, py, strength, radius) => {
+  const disturb = useCallback((px: number, py: number, strength: number, radius: number) => {
     const s = stateRef.current; if (!s) return;
     const gc = Math.floor(px / s.W * s.cols);
     const gr = Math.floor(py / s.H * s.rows);
@@ -32,7 +32,7 @@ export function WaterHero() {
     }
   }, []);
 
-  const drop = useCallback((px, py, strength, radius) => {
+  const drop = useCallback((px: number, py: number, strength: number, radius: number) => {
     const s = stateRef.current; if (!s) return;
     const gc = Math.floor(px / s.W * s.cols);
     const gr = Math.floor(py / s.H * s.rows);
@@ -51,7 +51,7 @@ export function WaterHero() {
     }
   }, []);
 
-  const ringDrop = useCallback((px, py, ringRadius, strength, thickness) => {
+  const ringDrop = useCallback((px: number, py: number, ringRadius: number, strength: number, thickness: number) => {
     const s = stateRef.current; if (!s) return;
     const gc = Math.floor(px / s.W * s.cols);
     const gr = Math.floor(py / s.H * s.rows);
@@ -71,7 +71,7 @@ export function WaterHero() {
     }
   }, []);
 
-  const bigDrop = useCallback((px, py) => {
+  const bigDrop = useCallback((px: number, py: number) => {
     drop(px, py, 16, 10);
     setTimeout(() => ringDrop(px, py, 6, 14, 3), 120);
     setTimeout(() => ringDrop(px, py, 4, 10, 2.5), 280);
@@ -182,7 +182,7 @@ export function WaterHero() {
     );
     observer.observe(hero);
 
-    const onMouseMove = (e) => {
+    const onMouseMove = (e: MouseEvent) => {
       const s = stateRef.current; if (!s) return;
       const rect = hero.getBoundingClientRect();
       const mx = e.clientX - rect.left;
@@ -198,19 +198,19 @@ export function WaterHero() {
       s.lastX = mx; s.lastY = my;
     };
 
-    const onMouseLeave = () => {
+    const onMouseLeave = (_e?: MouseEvent) => {
       const s = stateRef.current; if (!s) return;
       s.lastX = -1; s.lastY = -1; trailRef.current = [];
     };
 
-    const onClick = (e) => {
+    const onClick = (e: MouseEvent) => {
       const s = stateRef.current; if (!s) return;
       const rect = hero.getBoundingClientRect();
       const x = e.clientX - rect.left, y = e.clientY - rect.top;
       s.clickTimer = setTimeout(() => drop(x, y, 10, 18), 200);
     };
 
-    const onDblClick = (e) => {
+    const onDblClick = (e: MouseEvent) => {
       const s = stateRef.current; if (!s) return;
       if (s.clickTimer) clearTimeout(s.clickTimer);
       const rect = hero.getBoundingClientRect();
