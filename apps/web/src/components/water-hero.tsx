@@ -5,15 +5,35 @@ import { useEffect, useRef, useCallback } from "react";
 const DAMP = 0.96;
 const TRAIL_LEN = 18;
 
-export function WaterHero() {
-  const canvasRef = useRef(null);
-  const heroRef   = useRef(null);
-  const stateRef  = useRef(null);
-  const animRef   = useRef(null);
-  const activeRef = useRef(true);
-  const trailRef  = useRef([]);
+interface WaterState {
+  cur: Float32Array;
+  prev: Float32Array;
+  vel: Float32Array;
+  next: Float32Array;
+  cols: number;
+  rows: number;
+  W: number;
+  H: number;
+  lastX: number;
+  lastY: number;
+  clickTimer: ReturnType<typeof setTimeout> | null;
+}
 
-  const idxFn = (c: number, r: number, cols: number): number => r * cols + c;
+interface TrailPoint {
+  x: number;
+  y: number;
+  speed: number;
+}
+
+const idxFn = (c: number, r: number, cols: number): number => r * cols + c;
+
+export function WaterHero() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const heroRef   = useRef<HTMLDivElement>(null);
+  const stateRef  = useRef<WaterState | null>(null);
+  const animRef   = useRef<number>(0);
+  const activeRef = useRef<boolean>(true);
+  const trailRef  = useRef<TrailPoint[]>([]);
 
   const disturb = useCallback((px: number, py: number, strength: number, radius: number) => {
     const s = stateRef.current; if (!s) return;
@@ -198,7 +218,7 @@ export function WaterHero() {
       s.lastX = mx; s.lastY = my;
     };
 
-    const onMouseLeave = (_e?: MouseEvent) => {
+    const onMouseLeave = () => {
       const s = stateRef.current; if (!s) return;
       s.lastX = -1; s.lastY = -1; trailRef.current = [];
     };
@@ -232,7 +252,7 @@ export function WaterHero() {
       window.removeEventListener("resize", resize);
       document.removeEventListener("visibilitychange", onVisibility);
       observer.disconnect();
-      if (animRef.current) cancelAnimationFrame(animRef.current);
+      cancelAnimationFrame(animRef.current);
     };
   }, [resize, loop, disturb, drop, bigDrop]);
 
@@ -244,21 +264,29 @@ export function WaterHero() {
     >
       <canvas ref={canvasRef} aria-hidden="true" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} />
       <div style={{ position: "absolute", inset: 0, zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", pointerEvents: "none" }}>
-        <p style={{ fontFamily: "monospace", fontSize: "10px", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(93,202,165,0.45)", marginBottom: "14px" }}>Head of SEO &amp; Organic Growth</p>
+        <p style={{ fontFamily: "monospace", fontSize: "10px", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(93,202,165,0.45)", marginBottom: "14px" }}>
+          Head of SEO &amp; Organic Growth
+        </p>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2px", marginBottom: "18px" }}>
           <span lang="ja" style={{ fontFamily: "Georgia,serif", fontSize: "clamp(22px,3.5vw,40px)", color: "rgba(240,237,232,0.35)", lineHeight: 1.1, textShadow: "0 1px 24px rgba(0,0,0,0.8)" }}>初めまして、</span>
           <span lang="en" style={{ fontFamily: "Georgia,serif", fontSize: "clamp(28px,4.5vw,52px)", color: "rgba(240,237,232,0.55)", lineHeight: 1.1, textShadow: "0 1px 24px rgba(0,0,0,0.8)" }}>Hello,</span>
           <span lang="zh" style={{ fontFamily: "Georgia,serif", fontSize: "clamp(30px,5vw,58px)", color: "rgba(240,237,232,0.75)", lineHeight: 1.1, textShadow: "0 1px 24px rgba(0,0,0,0.8)" }}>你好</span>
-          <span lang="en" style={{ fontFamily: "Georgia,serif", fontSize: "clamp(34px,5.5vw,64px)", color: "rgba(240,237,232,0.95)", lineHeight: 1.1, textShadow: "0 1px 24px rgba(0,0,0,0.8)" }}>I’m <span style={{ borderBottom: "1.5px solid rgba(93,202,165,0.5)", paddingBottom: "2px" }}>Victoria Yap</span></span>
+          <span lang="en" style={{ fontFamily: "Georgia,serif", fontSize: "clamp(34px,5.5vw,64px)", color: "rgba(240,237,232,0.95)", lineHeight: 1.1, textShadow: "0 1px 24px rgba(0,0,0,0.8)" }}>
+            I’m <span style={{ borderBottom: "1.5px solid rgba(93,202,165,0.5)", paddingBottom: "2px" }}>Victoria Yap</span>
+          </span>
         </div>
         <div style={{ width: "36px", height: "1px", background: "rgba(93,202,165,0.3)", margin: "4px auto 14px" }} />
-        <p style={{ fontFamily: "monospace", fontSize: "clamp(10px,1.2vw,12px)", letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(93,202,165,0.5)" }}>London · Fintech · Legal · Multilingual SEO</p>
+        <p style={{ fontFamily: "monospace", fontSize: "clamp(10px,1.2vw,12px)", letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(93,202,165,0.5)" }}>
+          London · Fintech · Legal · Multilingual SEO
+        </p>
         <div style={{ display: "flex", gap: "16px", marginTop: "36px", pointerEvents: "all" }}>
           <a href="/case-studies" style={{ fontFamily: "monospace", fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", textDecoration: "none", color: "#fff", background: "rgba(31,77,92,0.8)", border: "1px solid rgba(93,202,165,0.3)", padding: "12px 24px", borderRadius: "2px" }}>View Case Studies</a>
           <a href="/contact" style={{ fontFamily: "monospace", fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", textDecoration: "none", color: "rgba(240,237,232,0.7)", background: "transparent", border: "1px solid rgba(240,237,232,0.2)", padding: "12px 24px", borderRadius: "2px" }}>Get In Touch</a>
         </div>
       </div>
-      <p style={{ position: "absolute", bottom: "24px", left: "50%", transform: "translateX(-50%)", zIndex: 3, fontFamily: "monospace", fontSize: "9px", letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(93,202,165,0.2)", whiteSpace: "nowrap" }}>drag to part · click to drop · double-click for splash</p>
+      <p style={{ position: "absolute", bottom: "24px", left: "50%", transform: "translateX(-50%)", zIndex: 3, fontFamily: "monospace", fontSize: "9px", letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(93,202,165,0.2)", whiteSpace: "nowrap" }}>
+        drag to part · click to drop · double-click for splash
+      </p>
     </section>
   );
 }
