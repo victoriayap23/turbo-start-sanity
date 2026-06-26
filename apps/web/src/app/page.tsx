@@ -9,6 +9,7 @@ import { draftMode } from "next/headers";
 import { Suspense } from "react";
 
 import { PageBuilder } from "@/components/pagebuilder";
+import { WaterHero } from "@/components/water-hero";
 import { getSEOMetadata } from "@/lib/seo";
 
 export async function generateMetadata() {
@@ -51,13 +52,16 @@ async function CachedHome({ perspective, stega }: DynamicFetchOptions) {
     stega,
   });
 
-  if (!homePageData) {
-    return <div>No home page data</div>;
-  }
-
   const { _id, _type, pageBuilder } = homePageData ?? {};
 
-  return <PageBuilder id={_id} pageBuilder={pageBuilder ?? []} type={_type} />;
+  return (
+    <>
+      <WaterHero />
+      {homePageData && (
+        <PageBuilder id={_id} pageBuilder={pageBuilder ?? []} type={_type} />
+      )}
+    </>
+  );
 }
 
 function HomeFallback() {
