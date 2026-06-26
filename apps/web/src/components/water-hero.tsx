@@ -35,6 +35,17 @@ function idx(c: number, r: number, cols: number): number {
   return r * cols + c;
 }
 
+// noUncheckedIndexedAccess safe helpers
+function get(arr: Float32Array, i: number): number {
+  return arr[i] ?? 0;
+}
+function add(arr: Float32Array, i: number, v: number): void {
+  arr[i] = (arr[i] ?? 0) + v;
+}
+function set(arr: Float32Array, i: number, v: number): void {
+  arr[i] = v;
+}
+
 function disturbState(
   s: WaterState,
   px: number,
@@ -52,7 +63,7 @@ function disturbState(
       const d = Math.sqrt(dc * dc + dr * dr);
       if (d <= radius) {
         const t = d / radius;
-        s.cur[idx(nc, nr, s.cols)] += strength * Math.exp(-t * t * 3);
+        add(s.cur, idx(nc, nr, s.cols), strength * Math.exp(-t * t * 3));
       }
     }
   }
@@ -139,13 +150,13 @@ function drawState(s: WaterState, ctx: CanvasRenderingContext2D): void {
     for (let x = 0; x < s.W; x++) {
       const gc  = Math.min(s.cols - 2, Math.floor((x / s.W) * s.cols));
       const gr  = Math.min(s.rows - 2, Math.floor((y / s.H) * s.rows));
-      const v   = s.cur[idx(gc, gr, s.cols)];
+      const v   = get(s.cur, idx(gc, gr, s.cols));
       const gcR = Math.min(s.cols - 2, gc + 1);
       const grD = Math.min(s.rows - 2, gr + 1);
       const gcL = Math.max(1, gc - 1);
       const grU = Math.max(1, gr - 1);
-      const dx  = s.cur[idx(gcR, gr, s.cols)] - s.cur[idx(gcL, gr, s.cols)];
-      const dy  = s.cur[idx(gc, grD, s.cols)] - s.cur[idx(gc, grU, s.cols)];
+      const dx  = get(s.cur, idx(gcR, gr, s.cols)) - get(s.cur, idx(gcL, gr, s.cols));
+      const dy  = get(s.cur, idx(gc, grD, s.cols)) - get(s.cur, idx(gc, grU, s.cols));
 
       const light = Math.max(0, (dx + dy) * 0.038);
       const depth = Math.max(0, Math.min(1, Math.abs(v) / 12));
@@ -156,10 +167,10 @@ function drawState(s: WaterState, ctx: CanvasRenderingContext2D): void {
       B += depth * 16 + light * 68;
 
       const pi = (y * s.W + x) * 4;
-      d[pi]     = Math.min(255, R);
-      d[pi + 1] = Math.min(255, G);
-      d[pi + 2] = Math.min(255, B);
-      d[pi + 3] = 255;
+      set(d as unknown as Float32Array, pi,     Math.min(255, R));
+      set(d as unknown as Float32Array, pi + 1, Math.min(255, G));
+      set(d as unknown as Float32Array, pi + 2, Math.min(255, B));
+      set(d as unknown as Float32Array, pi + 3, 255);
     }
   }
   ctx.putImageData(imgData, 0, 0);
