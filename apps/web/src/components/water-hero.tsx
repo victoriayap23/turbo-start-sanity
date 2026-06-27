@@ -562,12 +562,28 @@ export function WaterHero() {
           clip-path: url(#blobClip);
           overflow: hidden;
         }
-        @media (max-width: 767px) {
-.hero-grid {
+        @media (max-width: 389px) {
+          .hero-grid {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto;
+            gap: 16px;
+            padding: 24px 24px 48px;
+            align-items: center;
+          }
+          .hero-photo-col {
+            order: -1;
+          }
+          .hero-blob {
+            width: 180px;
+            height: 225px;
+          }
+        }
+        @media (min-width: 390px) and (max-width: 767px) {
+          .hero-grid {
             grid-template-columns: 1fr;
             grid-template-rows: auto auto;
             gap: 20px;
-            padding: 48px 24px 64px;
+            padding: 36px 24px 48px;
             align-items: center;
           }
           .hero-photo-col {
