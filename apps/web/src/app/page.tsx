@@ -9,7 +9,7 @@ import { draftMode } from "next/headers";
 import { Suspense } from "react";
 
 import { PageBuilder } from "@/components/pagebuilder";
-import { WaterHero } from "@/components/water-hero";
+import { WaterHeroClient } from "@/components/water-hero-client";
 import { getSEOMetadata } from "@/lib/seo";
 
 export async function generateMetadata() {
@@ -54,7 +54,7 @@ async function CachedHome({ perspective, stega }: DynamicFetchOptions) {
 
   return (
     <>
-      <WaterHero />
+      <WaterHeroClient />
       {homePageData?._id && (
         <PageBuilder
           id={homePageData._id}
