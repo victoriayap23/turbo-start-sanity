@@ -47,6 +47,7 @@ function CTACard({
     >
       {image?.id && (
         <div className="absolute inset-0 z-1">
+          <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/75 via-black/30 to-transparent" />
           <SanityImage
             className="pointer-events-none object-cover opacity-100 duration-1000 group-hover:transition-opacity"
             height={1080}
@@ -98,7 +99,7 @@ export function ImageLinkCards({
                 <CTACard
                   card={card}
                   className={cn(
-                    "bg-muted-foreground/10 dark:bg-zinc-800",
+                    "bg-muted-foreground/10 dark:bg-[#0d2830]",
                     cards.length > 1 &&
                       idx === 0 &&
                       "lg:rounded-r-none lg:rounded-l-3xl",
