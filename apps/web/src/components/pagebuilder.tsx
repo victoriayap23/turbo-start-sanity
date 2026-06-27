@@ -2,17 +2,35 @@
 
 import { useOptimistic } from "@sanity/visual-editing/react";
 import { env } from "@workspace/env/client";
-import { CTABlock } from "@workspace/sanity-blocks/cta/index";
-import { FaqAccordion } from "@workspace/sanity-blocks/faq-accordion/index";
-import { FeatureCardsWithIcon } from "@workspace/sanity-blocks/feature-cards-icon/index";
-import { HeroBlock } from "@workspace/sanity-blocks/hero/index";
-import { ImageLinkCards } from "@workspace/sanity-blocks/image-link-cards/index";
-import { RichTextBlock } from "@workspace/sanity-blocks/rich-text-block/index";
-import { SubscribeNewsletter } from "@workspace/sanity-blocks/subscribe-newsletter/index";
 import { createDataAttribute } from "next-sanity";
+import dynamic from "next/dynamic";
 
 import { FaqJsonLd } from "@/components/json-ld";
 import type { PageBuilderBlock, PagebuilderType } from "@/types";
+
+// ─── Lazy-load every block into its own chunk ─────────────────────────────────
+const CTABlock = dynamic(() =>
+  import("@workspace/sanity-blocks/cta/index").then((m) => m.CTABlock)
+);
+const FaqAccordion = dynamic(() =>
+  import("@workspace/sanity-blocks/faq-accordion/index").then((m) => m.FaqAccordion)
+);
+const FeatureCardsWithIcon = dynamic(() =>
+  import("@workspace/sanity-blocks/feature-cards-icon/index").then((m) => m.FeatureCardsWithIcon)
+);
+const HeroBlock = dynamic(() =>
+  import("@workspace/sanity-blocks/hero/index").then((m) => m.HeroBlock)
+);
+const ImageLinkCards = dynamic(() =>
+  import("@workspace/sanity-blocks/image-link-cards/index").then((m) => m.ImageLinkCards)
+);
+const RichTextBlock = dynamic(() =>
+  import("@workspace/sanity-blocks/rich-text-block/index").then((m) => m.RichTextBlock)
+);
+const SubscribeNewsletter = dynamic(() =>
+  import("@workspace/sanity-blocks/subscribe-newsletter/index").then((m) => m.SubscribeNewsletter)
+);
+// ─────────────────────────────────────────────────────────────────────────────
 
 export type PageBuilderProps = {
   readonly pageBuilder?: PageBuilderBlock[];
@@ -26,11 +44,6 @@ type SanityDataAttributeConfig = {
   readonly path: string;
 };
 
-/**
- * Renders the component for a single block, asserting the query result
- * against its PagebuilderType so a GROQ or schema rename breaks the build
- * instead of silently passing through `any`.
- */
 function renderBlockComponent(block: PageBuilderBlock) {
   switch (block?._type) {
     case "cta":
@@ -69,9 +82,6 @@ function renderBlockComponent(block: PageBuilderBlock) {
   }
 }
 
-/**
- * Helper function to create consistent Sanity data attributes
- */
 function createSanityDataAttribute(config: SanityDataAttributeConfig): string {
   return createDataAttribute({
     id: config.id,
@@ -83,9 +93,6 @@ function createSanityDataAttribute(config: SanityDataAttributeConfig): string {
   }).toString();
 }
 
-/**
- * Error fallback component for unknown block types
- */
 function UnknownBlockError({
   blockType,
   blockKey,
@@ -110,9 +117,6 @@ function UnknownBlockError({
   );
 }
 
-/**
- * Hook to handle optimistic updates for page builder blocks
- */
 function useOptimisticPageBuilder(
   initialBlocks: PageBuilderBlock[],
   documentId: string
@@ -129,9 +133,6 @@ function useOptimisticPageBuilder(
   );
 }
 
-/**
- * Custom hook for block component rendering logic
- */
 function useBlockRenderer(id: string, type: string) {
   const createBlockDataAttribute = (blockKey: string) =>
     createSanityDataAttribute({
@@ -166,9 +167,6 @@ function useBlockRenderer(id: string, type: string) {
   return { renderBlock };
 }
 
-/**
- * PageBuilder component for rendering dynamic content blocks from Sanity CMS
- */
 export function PageBuilder({
   pageBuilder: initialBlocks = [],
   id,
