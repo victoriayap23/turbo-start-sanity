@@ -6,11 +6,29 @@ import {
 } from "@workspace/sanity/live";
 import { queryHomePageData } from "@workspace/sanity/query";
 import { draftMode } from "next/headers";
+import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
 import { PageBuilder } from "@/components/pagebuilder";
-import { WaterHero } from "@/components/water-hero";
 import { getSEOMetadata } from "@/lib/seo";
+
+const WaterHero = dynamic(
+  () => import("@/components/water-hero").then((mod) => mod.WaterHero),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        style={{
+          width: "100%",
+          height: "100vh",
+          minHeight: "560px",
+          background: "#0d2830",
+        }}
+        aria-hidden="true"
+      />
+    ),
+  }
+);
 
 export async function generateMetadata() {
   const { perspective } = await getDynamicFetchOptions();
