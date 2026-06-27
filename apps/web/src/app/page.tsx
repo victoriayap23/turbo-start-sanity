@@ -7,6 +7,7 @@ import {
 import { queryHomePageData } from "@workspace/sanity/query";
 import { draftMode } from "next/headers";
 import { Suspense } from "react";
+import { preload } from "react-dom";
 
 import { PageBuilder } from "@/components/pagebuilder";
 import { WaterHeroClient } from "@/components/water-hero-client";
@@ -51,6 +52,14 @@ async function CachedHome({ perspective, stega }: DynamicFetchOptions) {
     perspective,
     stega,
   });
+
+  // Preload the hero image so the browser discovers it immediately
+  // from the server-rendered HTML, before any JavaScript runs.
+  // This fixes the 2,620ms "resource load delay" on LCP.
+  preload(
+    "https://cdn.sanity.io/images/o5gqs16l/production/b56fa625c57716afb31b83820bb54acae0b3a901-459x711.webp?fit=max&w=960&h=1200",
+    { as: "image", fetchpriority: "high" }
+  );
 
   return (
     <>

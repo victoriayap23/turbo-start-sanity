@@ -524,7 +524,8 @@ export function WaterHero() {
             </svg>
             <div className="hero-blob">
               <Image
-                src="https://cdn.sanity.io/images/o5gqs16l/production/b56fa625c57716afb31b83820bb54acae0b3a901-459x711.webp?fit=max&w=1200&h=1200"
+                src="https://cdn.sanity.io/images/o5gqs16l/production/b56fa625c57716afb31b83820bb54acae0b3a901-459x711.webp?fit=max&w=960&h=1200"
+                fetchPriority="high"
                 alt="Victoria Yap, Head of SEO and Organic Growth"
                 width={459}
                 height={711}
