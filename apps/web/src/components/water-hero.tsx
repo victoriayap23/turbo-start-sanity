@@ -335,205 +335,251 @@ export function WaterHero() {
   return (
     <section
       ref={heroRef}
-      aria-label="Victoria Yap — Head of SEO and Organic Growth"
+      aria-label="Victoria Yap — Head of SEO | Organic Growth"
       style={{
         position: "relative",
         width: "100%",
-        height: "100vh",
+        height: "80vh",
         minHeight: "560px",
         overflow: "hidden",
         cursor: "crosshair",
         background: "#0d2830",
       }}
     >
-      {/* Water canvas — aria-hidden so screen readers skip it */}
+      {/* Water canvas */}
       <canvas
         ref={canvasRef}
         aria-hidden="true"
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
       />
 
-      {/* Text content */}
+      {/* Outer flex — centres the grid */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           zIndex: 2,
           display: "flex",
-          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           pointerEvents: "none",
         }}
       >
-        <p
-          style={{
-            fontFamily: "monospace",
-            fontSize: "10px",
-            letterSpacing: "0.3em",
-            textTransform: "uppercase",
-            color: "rgba(93,202,165,0.45)",
-            marginBottom: "14px",
-          }}
-        >
-          Head of SEO &amp; Organic Growth
-        </p>
+        {/* Grid — exactly 2 direct children: left col + right col */}
+        <div className="hero-grid">
 
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "2px",
-            marginBottom: "18px",
-          }}
-        >
-          <span
-            lang="ja"
+          {/* ── LEFT COLUMN ── */}
+          <div
             style={{
-              fontFamily: "Georgia,serif",
-              fontSize: "clamp(22px,3.5vw,40px)",
-              color: "rgba(240,237,232,0.35)",
-              lineHeight: 1.1,
-              textShadow: "0 1px 24px rgba(0,0,0,0.8)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
             }}
           >
-            初めまして、
-          </span>
-          <span
-            lang="en"
-            style={{
-              fontFamily: "Georgia,serif",
-              fontSize: "clamp(28px,4.5vw,52px)",
-              color: "rgba(240,237,232,0.55)",
-              lineHeight: 1.1,
-              textShadow: "0 1px 24px rgba(0,0,0,0.8)",
-            }}
-          >
-            Hello,
-          </span>
-          <span
-            lang="zh"
-            style={{
-              fontFamily: "Georgia,serif",
-              fontSize: "clamp(30px,5vw,58px)",
-              color: "rgba(240,237,232,0.75)",
-              lineHeight: 1.1,
-              textShadow: "0 1px 24px rgba(0,0,0,0.8)",
-            }}
-          >
-            你好
-          </span>
-          <span
-            lang="en"
-            style={{
-              fontFamily: "Georgia,serif",
-              fontSize: "clamp(34px,5.5vw,64px)",
-              color: "rgba(240,237,232,0.95)",
-              lineHeight: 1.1,
-              textShadow: "0 1px 24px rgba(0,0,0,0.8)",
-            }}
-          >
-            I&apos;m{" "}
-            <span
+            {/* Greetings */}
+            <div
               style={{
-                borderBottom: "1.5px solid rgba(93,202,165,0.5)",
-                paddingBottom: "2px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                gap: "2px",
+                marginBottom: "18px",
               }}
             >
-              Victoria Yap
-            </span>
-          </span>
-        </div>
+              <span
+                lang="ja"
+                style={{
+                  fontFamily: "Georgia,serif",
+                  fontSize: "clamp(22px,3.5vw,40px)",
+                  color: "rgba(240,237,232,0.35)",
+                  lineHeight: 1.1,
+                  textShadow: "0 1px 24px rgba(0,0,0,0.8)",
+                }}
+              >
+                初めまして、
+              </span>
+              <span
+                lang="en"
+                style={{
+                  fontFamily: "Georgia,serif",
+                  fontSize: "clamp(28px,4.5vw,52px)",
+                  color: "rgba(240,237,232,0.55)",
+                  lineHeight: 1.1,
+                  textShadow: "0 1px 24px rgba(0,0,0,0.8)",
+                }}
+              >
+                Hello,
+              </span>
+              <span
+                lang="zh"
+                style={{
+                  fontFamily: "Georgia,serif",
+                  fontSize: "clamp(30px,5vw,58px)",
+                  color: "rgba(240,237,232,0.75)",
+                  lineHeight: 1.1,
+                  textShadow: "0 1px 24px rgba(0,0,0,0.8)",
+                }}
+              >
+                你好
+              </span>
+              <span
+                lang="en"
+                style={{
+                  fontFamily: "Georgia,serif",
+                  fontSize: "clamp(34px,5.5vw,64px)",
+                  color: "rgba(240,237,232,0.95)",
+                  lineHeight: 1.1,
+                  textShadow: "0 1px 24px rgba(0,0,0,0.8)",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                I&apos;m Victoria Yap
+              </span>
+            </div>
 
-        <div
-          aria-hidden="true"
-          style={{
-            width: "36px",
-            height: "1px",
-            background: "rgba(93,202,165,0.3)",
-            margin: "4px auto 14px",
-          }}
-        />
+            {/* Divider */}
+            <div
+              aria-hidden="true"
+              style={{
+                width: "36px",
+                height: "1px",
+                background: "rgba(93,202,165,0.3)",
+                marginBottom: "14px",
+              }}
+            />
 
-        <p
-          style={{
-            fontFamily: "monospace",
-            fontSize: "clamp(10px,1.2vw,12px)",
-            letterSpacing: "0.22em",
-            textTransform: "uppercase",
-            color: "rgba(93,202,165,0.5)",
-          }}
-        >
-          London · Fintech · Legal · Multilingual SEO
-        </p>
+            {/* Tagline */}
+            <p
+              style={{
+                fontFamily: "monospace",
+                fontSize: "clamp(10px,1.2vw,12px)",
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                color: "rgba(93,202,165,0.5)",
+                marginBottom: "32px",
+              }}
+            >
+              Head of SEO | Organic Growth
+            </p>
 
-        <div
-          style={{
-            display: "flex",
-            gap: "16px",
-            marginTop: "36px",
-            pointerEvents: "all",
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
-          <a
-            href="/case-studies"
-            style={{
-              fontFamily: "monospace",
-              fontSize: "10px",
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              textDecoration: "none",
-              color: "#fff",
-              background: "rgba(31,77,92,0.8)",
-              border: "1px solid rgba(93,202,165,0.3)",
-              padding: "12px 24px",
-              borderRadius: "2px",
-            }}
-          >
-            View Case Studies
-          </a>
-          <a
-            href="/contact"
-            style={{
-              fontFamily: "monospace",
-              fontSize: "10px",
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              textDecoration: "none",
-              color: "rgba(240,237,232,0.7)",
-              background: "transparent",
-              border: "1px solid rgba(240,237,232,0.2)",
-              padding: "12px 24px",
-              borderRadius: "2px",
-            }}
-          >
-            Get In Touch
-          </a>
+            {/* Buttons */}
+            <div
+              style={{
+                display: "flex",
+                gap: "16px",
+                flexWrap: "wrap",
+                pointerEvents: "all",
+              }}
+            >
+              <a
+                href="/case-studies"
+                style={{
+                  fontFamily: "monospace",
+                  fontSize: "10px",
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  textDecoration: "none",
+                  color: "#fff",
+                  background: "rgba(31,77,92,0.8)",
+                  border: "1px solid rgba(93,202,165,0.3)",
+                  padding: "12px 24px",
+                  borderRadius: "10px",
+                }}
+              >
+                View Case Studies
+              </a>
+              <a
+                href="/contact"
+                style={{
+                  fontFamily: "monospace",
+                  fontSize: "10px",
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  textDecoration: "none",
+                  color: "rgba(240,237,232,0.7)",
+                  background: "transparent",
+                  border: "1px solid rgba(240,237,232,0.2)",
+                  padding: "12px 24px",
+                  borderRadius: "10px",
+                }}
+              >
+                Get In Touch
+              </a>
+            </div>
+          </div>
+
+          {/* ── RIGHT COLUMN ── */}
+          <div className="hero-photo-col">
+            <svg
+              style={{ position: "absolute", width: 0, height: 0 }}
+              aria-hidden="true"
+            >
+              <defs>
+                <clipPath id="blobClip" clipPathUnits="objectBoundingBox"
+                  transform="scale(0.005 0.005)">
+                  <path d="M41,-73.4C52,-64.8,58.9,-51.4,63.9,-38.4C68.8,-25.3,71.7,-12.7,73.6,1.1C75.5,14.9,76.4,29.8,72,43.7C67.6,57.6,57.9,70.5,45,79.4C32.1,88.3,16.1,93.2,1.4,90.8C-13.3,88.4,-26.6,78.8,-40.7,70.6C-54.8,62.4,-69.7,55.6,-77.5,44.1C-85.3,32.6,-86,16.3,-82.7,1.9C-79.4,-12.5,-72.1,-24.9,-63.4,-35C-54.8,-45.1,-44.9,-52.9,-34.1,-61.6C-23.3,-70.3,-11.7,-82,1.7,-82.9C15,-85.8,30.1,-82,41,-73.4Z" transform="translate(100 100)" />
+                </clipPath>
+              </defs>
+            </svg>
+            <div className="hero-blob">
+              <img
+                src="https://cdn.sanity.io/images/o5gqs16l/production/b56fa625c57716afb31b83820bb54acae0b3a901-459x711.webp?fit=max&w=1200&h=1200"
+                alt="Victoria Yap, Head of SEO and Organic Growth"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "center top",
+                  display: "block",
+                }}
+              />
+            </div>
+          </div>
+
         </div>
       </div>
 
-      {/* Interaction hint */}
-      <p
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          bottom: "24px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          zIndex: 3,
-          fontFamily: "monospace",
-          fontSize: "9px",
-          letterSpacing: "0.25em",
-          textTransform: "uppercase",
-          color: "rgba(93,202,165,0.2)",
-          whiteSpace: "nowrap",
-        }}
-      >
-        drag to part · click to drop · double-click for splash
-      </p>
+      {/* Responsive styles — inline style prop can't do media queries */}
+      <style>{`
+        .hero-grid {
+          display: grid;
+          grid-template-columns: 55% 45%;
+          gap: 48px;
+          align-items: center;
+          width: 100%;
+          max-width: 960px;
+          padding: 0 40px;
+        }
+        .hero-photo-col {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          pointer-events: none;
+        }
+        .hero-blob {
+          width: 420px;
+          height: 520px;
+          clip-path: url(#blobClip);
+          overflow: hidden;
+        }
+        @media (max-width: 767px) {
+.hero-grid {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto;
+            gap: 20px;
+            padding: 48px 24px 64px;
+            align-items: center;
+          }
+          .hero-photo-col {
+            order: -1;
+          }
+          .hero-blob {
+            width: 220px;
+            height: 275px;
+          }
+        }
+      `}</style>
+
     </section>
   );
 }
