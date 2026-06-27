@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
+import Image from 'next/image';
 
 /* ─── Types ─────────────────────────────────────────────── */
 
@@ -522,9 +523,12 @@ export function WaterHero() {
               </defs>
             </svg>
             <div className="hero-blob">
-              <img
+              <Image
                 src="https://cdn.sanity.io/images/o5gqs16l/production/b56fa625c57716afb31b83820bb54acae0b3a901-459x711.webp?fit=max&w=1200&h=1200"
                 alt="Victoria Yap, Head of SEO and Organic Growth"
+                width={459}
+                height={711}
+                priority
                 style={{
                   width: "100%",
                   height: "100%",
