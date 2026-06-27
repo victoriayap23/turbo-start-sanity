@@ -58,7 +58,7 @@ async function CachedHome({ perspective, stega }: DynamicFetchOptions) {
   // This fixes the 2,620ms "resource load delay" on LCP.
   preload(
     "https://cdn.sanity.io/images/o5gqs16l/production/b56fa625c57716afb31b83820bb54acae0b3a901-459x711.webp?fit=max&w=960&h=1200",
-    { as: "image", fetchpriority: "high" }
+    { as: "image", fetchPriority: "high" }
   );
 
   return (
