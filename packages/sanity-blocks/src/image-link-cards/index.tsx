@@ -46,9 +46,9 @@ function CTACard({
       target={openInNewTab ? "_blank" : undefined}
     >
       {image?.id && (
-        <div className="absolute inset-0 z-1 mix-blend-multiply">
+        <div className="absolute inset-0 z-1">
           <SanityImage
-            className="pointer-events-none object-cover opacity-40 grayscale duration-1000 group-hover:opacity-100 group-hover:transition-opacity dark:opacity-60 dark:saturate-200 dark:hover:opacity-[2]"
+            className="pointer-events-none object-cover opacity-100 duration-1000 group-hover:transition-opacity"
             height={1080}
             image={image}
             loading="eager"
