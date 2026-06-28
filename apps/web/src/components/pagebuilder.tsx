@@ -12,6 +12,7 @@ import { SubscribeNewsletter } from "@workspace/sanity-blocks/subscribe-newslett
 import { createDataAttribute } from "next-sanity";
 
 import { FaqJsonLd } from "@/components/json-ld";
+import { WaterHeroClient } from "@/components/water-hero-client";
 import type { PageBuilderBlock, PagebuilderType } from "@/types";
 
 export type PageBuilderProps = {
@@ -26,11 +27,6 @@ type SanityDataAttributeConfig = {
   readonly path: string;
 };
 
-/**
- * Renders the component for a single block, asserting the query result
- * against its PagebuilderType so a GROQ or schema rename breaks the build
- * instead of silently passing through `any`.
- */
 function renderBlockComponent(block: PageBuilderBlock) {
   switch (block?._type) {
     case "cta":
@@ -46,6 +42,9 @@ function renderBlockComponent(block: PageBuilderBlock) {
     }
     case "hero":
       return <HeroBlock {...(block as PagebuilderType<"hero">)} />;
+    // @ts-expect-error waterHero is registered in blockSchemas but the union derives from QueryHomePageDataResult
+    case "waterHero":
+      return <WaterHeroClient />;
     case "featureCardsIcon":
       return (
         <FeatureCardsWithIcon
@@ -69,9 +68,6 @@ function renderBlockComponent(block: PageBuilderBlock) {
   }
 }
 
-/**
- * Helper function to create consistent Sanity data attributes
- */
 function createSanityDataAttribute(config: SanityDataAttributeConfig): string {
   return createDataAttribute({
     id: config.id,
@@ -83,9 +79,6 @@ function createSanityDataAttribute(config: SanityDataAttributeConfig): string {
   }).toString();
 }
 
-/**
- * Error fallback component for unknown block types
- */
 function UnknownBlockError({
   blockType,
   blockKey,
@@ -110,9 +103,6 @@ function UnknownBlockError({
   );
 }
 
-/**
- * Hook to handle optimistic updates for page builder blocks
- */
 function useOptimisticPageBuilder(
   initialBlocks: PageBuilderBlock[],
   documentId: string
@@ -129,9 +119,6 @@ function useOptimisticPageBuilder(
   );
 }
 
-/**
- * Custom hook for block component rendering logic
- */
 function useBlockRenderer(id: string, type: string) {
   const createBlockDataAttribute = (blockKey: string) =>
     createSanityDataAttribute({
@@ -166,9 +153,6 @@ function useBlockRenderer(id: string, type: string) {
   return { renderBlock };
 }
 
-/**
- * PageBuilder component for rendering dynamic content blocks from Sanity CMS
- */
 export function PageBuilder({
   pageBuilder: initialBlocks = [],
   id,

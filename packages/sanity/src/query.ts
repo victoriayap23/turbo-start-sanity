@@ -5,6 +5,7 @@ import { heroGroqProjection } from "@workspace/sanity-blocks/hero/hero.groq";
 import { imageLinkCardsGroqProjection } from "@workspace/sanity-blocks/image-link-cards/image-link-cards.groq";
 import { richTextBlockGroqProjection } from "@workspace/sanity-blocks/rich-text-block/rich-text-block.groq";
 import { subscribeNewsletterGroqProjection } from "@workspace/sanity-blocks/subscribe-newsletter/subscribe-newsletter.groq";
+import { waterHeroGroqProjection } from "@workspace/sanity-blocks/water-hero/water-hero.groq";
 import { defineQuery } from "next-sanity";
 
 const imageFields = /* groq */ `
@@ -103,15 +104,13 @@ const buttonsFragment = /* groq */ `
   }
 `;
 
-// Page builder block fragments are owned by their respective block packages
-// in @workspace/sanity-blocks, imported above, so the GROQ projection and
-// the component that reads it stay in lockstep.
 const pageBuilderFragment = /* groq */ `
   pageBuilder[]{
     ...,
     _type,
     ${ctaGroqProjection},
     ${heroGroqProjection},
+    ${waterHeroGroqProjection},
     ${faqAccordionGroqProjection},
     ${featureCardsIconGroqProjection},
     ${subscribeNewsletterGroqProjection},
@@ -120,11 +119,6 @@ const pageBuilderFragment = /* groq */ `
   }
 `;
 
-/**
- * Query to extract a single image from a page document
- * This is used as a type reference only and not for actual data fetching
- * Helps with TypeScript inference for image objects
- */
 export const queryImageType = defineQuery(`
   *[_type == "page" && defined(image)][0]{
     ${imageFragment}
@@ -183,6 +177,7 @@ export const queryAllBlogDataForSearch = defineQuery(`
 export const queryBlogIndexPageBlogsCount = defineQuery(`
   count(*[_type == "blog" && (seoHideFromLists != true)])
 `);
+
 export const queryBlogSlugPageData = defineQuery(`
   *[_type == "blog" && slug.current == $slug][0]{
     ...,
@@ -310,6 +305,7 @@ export const querySitemapData = defineQuery(`{
     "lastModified": _updatedAt
   }
 }`);
+
 export const queryGlobalSeoSettings = defineQuery(`
   *[_type == "settings"][0]{
     _id,
